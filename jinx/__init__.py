@@ -85,8 +85,8 @@ class ViewController(object):
 
 
 class View(object):
-    """ Views are objects that know how to draw themselves on the
-    screen. """
+    """ Views are objects that know how
+    to draw themselves on the screen. """
 
     screen = None
     subviews = []
