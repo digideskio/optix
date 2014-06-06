@@ -38,4 +38,4 @@ text_view.height = 50
 text_view.border = True
 ```
 
-To render some text to the string with some visual configuration.
+To render some text to the screen with some visual configuration.
