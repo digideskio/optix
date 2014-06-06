@@ -22,6 +22,7 @@ class ViewController(object):
         self.screen.erase()
         self.active_view.screen = self.screen
         self.active_view.draw()
+        self.active_view.refresh()
 
         # Begin the main event loop
         self.event_loop()
@@ -45,6 +46,7 @@ class ViewController(object):
         while True:
             key = self.screen.getch()
             self.active_view.key_pressed(key)
+            self.refresh()
 
     def push_view(self, view):
         """ Push a view to the top of the controller's view stack.
@@ -126,7 +128,6 @@ class View(object):
         for view in self.subviews:
             view.screen = self.screen
             view.draw()
-        self.refresh()
 
     def key_pressed(self, key):
         """ This is a callback that is invoked by this view's

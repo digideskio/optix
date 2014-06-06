@@ -11,31 +11,67 @@ import jinx
 
 class MyView(jinx.View):
 
-    def __init__(self, x, y, message):
-        self.message = message
-        self.x = x
-        self.y = y
+    def __init__(self, x, y, text):
+        self.left = x
+        self.top = y
+        self.text = text
+        super(MyView, self).__init__()
 
     def show(self):
-        self.add_str(0, 0, message)
+        self.draw_text(self.left, self.top, self.text)
 
-view = MyView("Hello")
-controller = jinx.Controller()
-controller.push_view(0, 0, view)
-controller.supervise()
+# Create a controller
+controller = jinx.ViewController()
+
+# Create our custom view
+my_view = MyView(10, 10, "Hello World!")
+
+controller.push_view(my_view)
+controller.present()
 ```
 
-Will render `MyView` starting in the top left corner.
-
-You can also take advantage of some built in `View` objects:
+This will render the text "Hello World!" starting at row 10,
+column 10 on a black screen. But, this is a simple example
+which takes poor advantage of `jinx`'s layout engine.
 
 ```python
 import jinx
 
-text_view = jinx.TextView("This is some text.")
-text_view.width = 50
-text_view.height = 50
-text_view.border = True
+class TextView(jinx.View):
+
+    def __init__(self, x, y, text):
+        self.left = x
+        self.top = y
+        self.text = text
+        super(TextView, self).__init__()
+
+    def show(self):
+        self.draw_text(self.left, self.top, self.text)
+
+class GridView(jinx.View):
+    """ Displays data in a grid. """
+    pass
+
+# Create a controller
+controller = jinx.ViewController()
+
+# Create a top-level view to house subviews
+top_view = jinx.View()
+
+# Create subviews
+header = jinx.TextView(0, 0, "AWESOME APPLICATION")
+subheader = jinx.TextView(2, 0, "By Doug Black")
+grid = GridView(10, 0, column_headers, rows)
+
+# Add subviews
+top_view.add_subviews(header, grid)
+
+# Push view and present controller
+controller.push_view(top_view)
+controller.present()
 ```
 
-To render some text to the screen with some visual configuration.
+In this example, a generic `View` is created to house our `TextView` and
+`GridView` subviews. When the generic `View` is drawn, it draws each of
+its subviews in turn. This component-based architecture makes designing
+interactive curses-style command line UI's easy.
