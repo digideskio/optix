@@ -132,4 +132,5 @@ class View(object):
     def key_pressed(self, key):
         """ This is a callback that is invoked by this view's
         controller when a keydown event happens. """
-        self.screen.addstr(20, 50, "Key pressed " + str(key))
+
+        pass
