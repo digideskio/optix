@@ -2,47 +2,52 @@ from jinx import View
 
 class RowView(View):
 
-    def __init__(self, left, top, cells, sizes=None, padding=1, seperator='|', align='center'):
+    padding = 1
+    seperator = '|'
+    align = 'center'
+
+    def __init__(self, left, top, cells, sizes=None):
         self.left = left
         self.top = top
-        self.padding = padding
-        self.seperator = seperator
         self.sizes = sizes or [len(cell) for cell in cells]
-        self.align = align
-        self.cells = self._correct_padding(cells, sizes)
+        self.cells = cells
 
-    def _correct_padding(self, cells, sizes):
-        return [self.alignment_func(cell)(sizes[i]) for i, cell in enumerate(cells)]
+    def pad_cells(self, cells, sizes):
+        return [self.align_cell(cell, size) for cell, size in zip(cells, sizes)]
 
     def draw(self):
-        cells = self._correct_padding(self.cells, self.sizes)
+        cells = self.pad_cells(self.cells, self.sizes)
         pad = self.padding * ' '
         gap = pad + self.seperator + pad
-        row = gap.join(self.cells)
+        row = gap.join(cells)
         self.draw_text(self.left, self.top, row)
 
-    def alignment_func(self, cell):
+    def align_cell(self, cell, size):
         alignments = {
             'center': cell.center,
             'left': cell.ljust,
             'right': cell.rjust,
         }
-        return alignments.get(self.align, cell.center)
+        return alignments.get(self.align, cell.center)(size)
 
 class GridView(View):
 
-    def __init__(self, left, top, rows, sizes=None, padding=1, seperator='|', align='center'):
+    padding = 1
+    seperator = '|'
+    align = 'center'
+
+    def __init__(self, left, top, rows, sizes=None):
         self.left = left
         self.top = top
         self.rows = rows
         self.sizes = sizes or self.calculate_sizes(self.rows)
-        self.padding = padding
-        self.seperator = seperator
-        self.align = align
 
     def draw(self):
         for i, row in enumerate(self.rows):
-            new_row = RowView(self.top + i, self.left, row, self.sizes, self.padding, self.seperator, self.align)
+            new_row = RowView(self.top + i, self.left, row, self.sizes)
+            new_row.padding = self.padding
+            new_row.seperator = self.seperator
+            new_row.align = self.align
             new_row.screen = self.screen
             new_row.draw()
 
