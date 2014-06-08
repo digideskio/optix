@@ -118,6 +118,7 @@ class View(object):
 
         for view in views:
             view.parent = self
+            view.screen = self.screen
             self.subviews.append(view)
 
     def draw(self):
