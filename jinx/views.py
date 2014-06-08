@@ -54,3 +54,21 @@ class GridView(View):
     def calculate_sizes(self, rows):
         return [len(max(elements)) for elements in zip(*rows[::-1])]
 
+
+class BorderedView(View):
+
+    width = 20
+    height = 10
+
+    def __init__(self, left, top):
+        self.left = left
+        self.top = top
+
+    def draw(self):
+        horizontal_middle = (self.width - 2)
+        top = bottom = '+' + ('-' * horizontal_middle) + '+'
+        middle = '|' + (' ' * horizontal_middle) + '|'
+        self.draw_text(self.top, self.left, top)
+        for y in xrange(self.height - 1):
+            self.draw_text(self.top + y + 1, self.left, middle)
+        self.draw_text(self.top + self.height - 1, self.left, bottom)
