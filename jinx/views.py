@@ -1,5 +1,6 @@
 from jinx import View
 
+
 class RowView(View):
     """ A RowView is used to organize a series of items on
     one line
@@ -39,6 +40,7 @@ class RowView(View):
             'right': cell.rjust,
         }
         return alignments.get(self.align, cell.center)(size)
+
 
 class GridView(View):
     """ A GridView is used to draw and format a series of RowViews

@@ -133,5 +133,4 @@ class View(object):
     def key_pressed(self, key):
         """ This is a callback that is invoked by this view's
         controller when a keydown event happens. """
-
         pass
