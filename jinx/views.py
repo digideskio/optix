@@ -1,6 +1,14 @@
 from jinx import View
 
 class RowView(View):
+    """ A RowView is used to organize a series of items on
+    one line
+
+    So:
+        RowView(x, y, ['one', 'two', 'three', 'four'])
+    would draw:
+        one | two | three | four
+    """
 
     padding = 1
     seperator = '|'
@@ -13,6 +21,7 @@ class RowView(View):
         self.cells = cells
 
     def pad_cells(self, cells, sizes):
+        """ Pad cells based onsize list and alignment property """
         return [self.align_cell(cell, size) for cell, size in zip(cells, sizes)]
 
     def draw(self):
@@ -23,6 +32,7 @@ class RowView(View):
         self.draw_text(self.left, self.top, row)
 
     def align_cell(self, cell, size):
+        """ Given a size, align the cell based on align property """
         alignments = {
             'center': cell.center,
             'left': cell.ljust,
@@ -31,6 +41,16 @@ class RowView(View):
         return alignments.get(self.align, cell.center)(size)
 
 class GridView(View):
+    """ A GridView is used to draw and format a series of RowViews
+
+    So:
+        grid = [['one', 'two', 'three'], [1, 2, 3]]
+        GridView(0, 0, grid)
+    would draw:
+        one | two | three
+         1  |  2  |   3
+    """
+
 
     padding = 1
     seperator = '|'
@@ -52,10 +72,23 @@ class GridView(View):
             new_row.draw()
 
     def calculate_sizes(self, rows):
+        """ Calculate the size for each column based on max cell width """
         return [len(max(elements)) for elements in zip(*rows[::-1])]
 
 
 class BorderedView(View):
+    """ A BorderedView is used to essentially draw
+    bordered boxes.
+
+    So:
+        v = BorderedView(0, 0)
+        v.width = 3
+        v.height = 3
+    would draw:
+        +-+
+        | |
+        +-+
+    """
 
     width = 20
     height = 10
