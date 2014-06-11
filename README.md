@@ -17,7 +17,7 @@ class MyView(jinx.View):
         self.text = text
         super(MyView, self).__init__()
 
-    def show(self):
+    def draw(self):
         self.draw_text(self.left, self.top, self.text)
 
 # Create a controller
@@ -45,7 +45,7 @@ class TextView(jinx.View):
         self.text = text
         super(TextView, self).__init__()
 
-    def show(self):
+    def draw(self):
         self.draw_text(self.left, self.top, self.text)
 
 class GridView(jinx.View):
