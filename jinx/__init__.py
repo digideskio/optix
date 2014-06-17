@@ -46,7 +46,7 @@ class ViewController(object):
         while True:
             key = self.screen.getch()
             self.active_view.key_pressed(key)
-            self.refresh()
+            self.active_view.refresh()
 
     def push_view(self, view):
         """ Push a view to the top of the controller's view stack.
