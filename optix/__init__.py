@@ -1,5 +1,4 @@
 import curses
-from time import sleep
 
 
 class ViewController(object):
