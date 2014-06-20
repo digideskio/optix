@@ -3,7 +3,7 @@ optix
 
 Simple command line UI's.
 
-Planned Usage
+planned usage
 -------------
 
 ```python
