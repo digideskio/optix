@@ -65,7 +65,7 @@ class ViewController(object):
 
     @property
     def active_view(self):
-        """ Returns view at the top of the stack. This *generally*
+        """ Returns view at the top of the stack. This *should*
         corresponds to the currently displayed view. """
 
         return self.views[len(self.views) - 1]

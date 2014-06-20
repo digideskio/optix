@@ -107,3 +107,41 @@ class BorderedView(View):
         for y in xrange(self.height - 1):
             self.draw_text(self.top + y + 1, self.left, middle)
         self.draw_text(self.top + self.height - 1, self.left, bottom)
+
+class MenuView(View):
+    """ A MenuView is used to draw a menu.
+
+    It is different from a GridView in that it provides a few
+    more convenience features for creating an interactive menu.
+
+    So:
+        menu = [
+            ('Gender', ('Male', 'Female'), (optix.Red, optix.Green)),
+            ('Like Sports?', ('Yes', 'No', 'Kinda'), (optix.Red, optix.Green, optix.Blue)),
+        ]
+        menu = [
+            'Gender': {
+                'Male': optix.Red,
+                'Female', optix.Green
+            },
+            'Like Sports?': {
+                'Yes': optix.Red,
+                'No': optix.Green,
+                'Maybe': optix.Blue,
+            }
+        }
+        MenuView(0, 0, menu)
+    would draw:
+        +---------------------+
+        | Gender       | Male |
+        | Like Sports? | No   |
+        +---------------------+
+    """
+
+    def __init__(self, left, top, menu):
+        self.left = left
+        self.top = top
+        self.menu = menu
+
+    def draw(self):
+        pass
