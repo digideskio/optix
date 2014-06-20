@@ -2,11 +2,11 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='jinx',
+    name='optix',
     version='0.0.1',
     author='Doug Black',
     author_email='doug@dougblack.io',
-    description='Stronger curses',
+    description='CLI views',
     packages=find_packages(),
     include_package_data=True,
     install_requires=['clint'],

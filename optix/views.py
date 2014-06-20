@@ -1,4 +1,4 @@
-from jinx import View
+from optix import View
 
 
 class RowView(View):
