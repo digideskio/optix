@@ -22,7 +22,7 @@ class RowView(View):
         self.cells = cells
 
     def pad_cells(self, cells, sizes):
-        """ Pad cells based onsize list and alignment property """
+        """ Pad cells based on size and alignment properties """
         return [self.align_cell(cell, size) for cell, size in zip(cells, sizes)]
 
     def draw(self):
@@ -108,6 +108,38 @@ class BorderedView(View):
             self.draw_text(self.top + y + 1, self.left, middle)
         self.draw_text(self.top + self.height - 1, self.left, bottom)
 
+
+class MenuChoice(RowView):
+    """ A MenuChoice contains a prompt and a series of options.
+
+    Toggling a MenuChoice causes it to switch the currently shown
+    option. Options can have colors associated with them.
+    """
+
+    def __init__(self, prompt, options):
+        self.prompt = prompt
+        self.options = options
+        self.selected = 0
+        self.keys = options.keys()
+
+        key = self.keys[0]
+
+    def toggle(self):
+        if self.selected == len(self.keys):
+            self.selected = 0
+        else:
+            self.selected += 1
+
+    @property
+    def cells(self):
+        key = self.keys[self.selected]
+        return [self.prompt, key, self.options[key]]
+
+    @property
+    def sizes(self):
+        return [len(cell) for cell in self.cells]
+
+
 class MenuView(View):
     """ A MenuView is used to draw a menu.
 
@@ -115,22 +147,9 @@ class MenuView(View):
     more convenience features for creating an interactive menu.
 
     So:
-        menu = [
-            ('Gender', ('Male', 'Female'), (optix.Red, optix.Green)),
-            ('Like Sports?', ('Yes', 'No', 'Kinda'), (optix.Red, optix.Green, optix.Blue)),
-        ]
-        menu = [
-            'Gender': {
-                'Male': optix.Red,
-                'Female', optix.Green
-            },
-            'Like Sports?': {
-                'Yes': optix.Red,
-                'No': optix.Green,
-                'Maybe': optix.Blue,
-            }
-        }
-        MenuView(0, 0, menu)
+        gender = MenuChoice('Gender', {'Male': optix.Red, 'Female': optix.Green})
+        sports = MenuChoice('Like Sports?', {'Yes': optix.Red, 'No': optix.Green})
+        MenuView(0, 0, [gender, sports])
     would draw:
         +---------------------+
         | Gender       | Male |
