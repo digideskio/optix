@@ -91,6 +91,7 @@ class View(object):
 
     screen = None
     subviews = []
+    action_keys = {}
 
     def draw_text(self, x, y, message, *args, **kwargs):
         """ Writes the given message at row x, column y. """
@@ -123,13 +124,24 @@ class View(object):
     def draw(self):
         """ Render this view. By default, this method just
         calls draw() on each of its subviews. Override this
-        method to customized behavior. """
+        method to customize behavior. """
 
         for view in self.subviews:
             view.screen = self.screen
             view.draw()
 
+    def add_action_key(self, key, func):
+        """ Add a function to be executed when key
+        is pressed. For simplicity, the functions are
+        called with no arguments, so any state needed must
+        be stored on the View object itself.
+        """
+        self.action_keys[ord(key)] = func
+
     def key_pressed(self, key):
         """ This is a callback that is invoked by this view's
         controller when a keydown event happens. """
-        pass
+
+        if ord(key) in self.action_keys:
+            self.action_keys[ord(key)]()
+        self.refresh()
