@@ -12,7 +12,7 @@ class RowView(View):
     """
 
     padding = 1
-    seperator = '|'
+    separator = '|'
     align = 'center'
 
     def __init__(self, left, top, cells, sizes=None):
@@ -28,7 +28,7 @@ class RowView(View):
     def draw(self):
         cells = self.pad_cells(self.cells, self.sizes)
         pad = self.padding * ' '
-        gap = pad + self.seperator + pad
+        gap = pad + self.separator + pad
         row = gap.join(cells)
         self.draw_text(self.left, self.top, row)
 
@@ -53,9 +53,8 @@ class GridView(View):
          1  |  2  |   3
     """
 
-
     padding = 1
-    seperator = '|'
+    separator = '|'
     align = 'center'
 
     def __init__(self, left, top, rows, sizes=None):
@@ -68,7 +67,7 @@ class GridView(View):
         for i, row in enumerate(self.rows):
             new_row = RowView(self.top + i, self.left, row, self.sizes)
             new_row.padding = self.padding
-            new_row.seperator = self.seperator
+            new_row.separator = self.separator
             new_row.align = self.align
             new_row.screen = self.screen
             new_row.draw()
